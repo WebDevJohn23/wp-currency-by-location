@@ -1,0 +1,18 @@
+/vendor/
+/node_modules/
+dist/
+/*.zip
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE junk
+.idea/
+.vscode/
+*.iml
+
+# Logs and cache
+*.log
+.sass-cache
+*.bak
