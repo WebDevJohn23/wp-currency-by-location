@@ -1,75 +1,84 @@
 <?php
 
 //// Get symbol to pass to react API along with country name
-function getSymbol($countryName)
-{
-    switch ($countryName) {
-        case 'Austria':
-            $symbol = 'EUR';
-            break;
-        case 'Bahrain':
-            $symbol = 'BHD';
-            break;
-        case 'Belgium':
-            $symbol = 'EUR';
-            break;
-        case 'Egypt':
-            $symbol = 'EGP';
-            break;
-        case 'France':
-            $symbol = 'EUR';
-            break;
-        case 'Germany':
-            $symbol = 'EUR';
-            break;
-        case 'Greece':
-            $symbol = 'EUR';
-            break;
-        case 'Ireland':
-            $symbol = 'EUR';
-            break;
-        case 'Italy':
-            $symbol = 'EUR';
-            break;
-        case 'Kuwait':
-            $symbol = 'KWD';
-            break;
-        case 'Netherlands':
-            $symbol = 'EUR';
-            break;
-        case 'Oman':
-            $symbol = 'OMR';
-            break;
-        case 'Portugal':
-            $symbol = 'EUR';
-            break;
-        case 'Qatar':
-            $symbol = 'QAR';
-            break;
-        case 'Saudi Arabia':
-            $symbol = 'SAR';
-            break;
-        case 'Spain':
-            $symbol = 'EUR';
-            break;
-        case 'Switzerland':
-            $symbol = 'CHF';
-            break;
-        case 'Turkey':
-            $symbol = 'TRY';
-            break;
-        case 'United Arab Emirates':
-            $symbol = 'AED';
-            break;
-        case 'United Kingdom':
-            $symbol = 'GBP';
-            break;
-        case 'United States':
-            $symbol = 'USD';
-            break;
-        default:
-            $symbol = 'USD';
-            break;
+function getSymbol($country) {
+    static $m = [
+        'austria'=>'EUR','belgium'=>'EUR','france'=>'EUR','germany'=>'EUR','greece'=>'EUR',
+        'ireland'=>'EUR','italy'=>'EUR','netherlands'=>'EUR','portugal'=>'EUR','spain'=>'EUR',
+        'bahrain'=>'BHD','egypt'=>'EGP','kuwait'=>'KWD','oman'=>'OMR','qatar'=>'QAR',
+        'saudi arabia'=>'SAR','united arab emirates'=>'AED','switzerland'=>'CHF','turkey'=>'TRY',
+        'united kingdom'=>'GBP','united states'=>'USD'
+    ];
+    return $m[strtolower($country)] ?? 'USD';
+}
+
+//Get IP address
+function getVisIpAddr() {
+
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
     }
+    else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+}
+
+
+add_shortcode('getPriceTable', 'getpriceTable');
+
+function getPrice1(){
+    $arr = getPriceTable();
+    $oneMonth = $arr['data']['oneMonth'];
+    return $oneMonth;
+}
+
+add_shortcode('getPrice1', 'getPrice1');
+
+function getPrice2(){
+    $arr = getPriceTable();
+    $twoMonths = $arr['data']['twoMonths'];
+    return $twoMonths;
+}
+
+add_shortcode('getPrice2', 'getPrice2');
+
+function getPrice3(){
+    $arr = getPriceTable();
+    $threeMonths = $arr['data']['threeMonths'];
+    return $threeMonths;
+}
+
+add_shortcode('getPrice3', 'getPrice3');
+
+function getSymbol1(){
+    $countryName = getCountry();
+    $symbol = getSymbol($countryName);
     return $symbol;
 }
+
+add_shortcode('getSymbol1', 'getSymbol1');
+
+function getButton1(){
+    $countryName = getCountry();
+    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/1%20Month%20Plan/' . $countryName . '">Sign-up</a>';
+}
+
+add_shortcode('getButton1', 'getButton1');
+
+function getButton2(){
+    $countryName = getCountry();
+    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/2%20Month%20Plan/' . $countryName . '">Sign-up</a>';
+}
+
+add_shortcode('getButton2', 'getButton2');
+
+function getButton3(){
+    $countryName = getCountry();
+    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/3%20Month%20Plan/' . $countryName . '">Sign-up</a>';
+}
+
+add_shortcode('getButton3', 'getButton3');
+

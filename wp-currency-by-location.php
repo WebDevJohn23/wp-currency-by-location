@@ -22,34 +22,19 @@ $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'wp_currency_by_location_settings_link' );
 
 
-
-
-//Get IP address
-function getVisIpAddr() {
-
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        return $_SERVER['HTTP_CLIENT_IP'];
-    }
-    else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        return $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    else {
-        return $_SERVER['REMOTE_ADDR'];
-    }
-}
   $baseurl = home_url();
 
   function getCountry()
   {
-      $name = "United States";
+      $name = "Netherlands";
       if (isset($_GET['country'])) {
           $country1 = $_GET['country'];
           return $country1;
 
-      } else {
+      } else { /*
           // Store the IP address
-          //$vis_ip = getVisIPAddr();
-         $vis_ip = '51111.3.0.0'; // test
+          $vis_ip = getVisIPAddr();
+         // $vis_ip = '51111.3.0.0'; // test
          // $vis_ip = '168.187.0.0'; // Kuwait
          // $vis_ip = '2.50.33.162'; // Dubai
           $country_by_ip_settings_options = get_option('country_via_ip_ipstack_key'); // Array of All Options
@@ -69,6 +54,7 @@ function getVisIpAddr() {
           {
               $name = "United States of America";
           }
+ */
           return $name;
           //echo $data = json_decode($ipdat);
       }
@@ -135,59 +121,3 @@ function getPriceTable(){
 
     }
 }
-
-add_shortcode('getPriceTable', 'getpriceTable');
-
-function getPrice1(){
-    $arr = getPriceTable();
-    $oneMonth = $arr['data']['oneMonth'];
-    return $oneMonth;
-}
-
-add_shortcode('getPrice1', 'getPrice1');
-
-function getPrice2(){
-    $arr = getPriceTable();
-    $twoMonths = $arr['data']['twoMonths'];
-    return $twoMonths;
-}
-
-add_shortcode('getPrice2', 'getPrice2');
-
-function getPrice3(){
-    $arr = getPriceTable();
-    $threeMonths = $arr['data']['threeMonths'];
-    return $threeMonths;
-}
-
-add_shortcode('getPrice3', 'getPrice3');
-
-function getSymbol1(){
-    $countryName = getCountry();
-    $symbol = getSymbol($countryName);
-    return $symbol;
-}
-
-add_shortcode('getSymbol1', 'getSymbol1');
-
-function getButton1(){
-    $countryName = getCountry();
-    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/1%20Month%20Plan/' . $countryName . '">Sign-up</a>';
-}
-
-add_shortcode('getButton1', 'getButton1');
-
-function getButton2(){
-    $countryName = getCountry();
-    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/2%20Month%20Plan/' . $countryName . '">Sign-up</a>';
-}
-
-add_shortcode('getButton2', 'getButton2');
-
-function getButton3(){
-    $countryName = getCountry();
-    return '<a class="elementor-price-table__button elementor-button elementor-size-md" href="http://nourish.believenutrition.net/subscribeInfo/3%20Month%20Plan/' . $countryName . '">Sign-up</a>';
-}
-
-add_shortcode('getButton3', 'getButton3');
-
