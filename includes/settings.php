@@ -14,12 +14,12 @@ if (!(is_array($arrOption))) {
 }
 
 // admin menu
-add_action('admin_menu', 'countryIP_adminmenu');
-function countryIP_adminmenu() {
-    add_options_page('Country via IP Address', 'Country via IP Address', 'manage_options', 'country_ip_admin_menu', 'country_ip_verification_adminpage');
+add_action('admin_menu', 'wp_currency_by_location_adminmenu');
+function wp_currency_by_location_adminmenu() {
+    add_options_page('WP Currency by Location', 'WP Currency by Location', 'manage_options', 'wp_currency_by_location_admin_menu', 'wp_currency_by_location_adminpage');
 }
 // admin page
-function country_ip_verification_adminpage() {
+function wp_currency_by_location_adminpage() {
     global $countryName;
     global $updated;
     $options = get_option(VerificationKey);
@@ -71,6 +71,7 @@ function country_ip_verification_adminpage() {
         Shortcode: [ipCountry]
     </div>
     <?php
+
 }
 
 /*

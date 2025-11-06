@@ -1,29 +1,28 @@
 <?php
-require_once ('functions.php');
-/*
-Plugin Name: Country Code via IP Address - V2
-Description: Plugin to get the country code based off users IP address.
-Version: 2.0
-Author: Johnathan Julig
-License: GPLv2 or later
-Text Domain: countryIPaddress
-*/
+/**
+ * Plugin Name: WP Currency by Location
+ * Plugin URI:  https://github.com/YOURUSER/wp-currency-by-location
+ * Description: Detects user location via IP and applies automatic currency + pricing adjustments. Based on original "Country Code via IP Address" plugin (V2).
+ * Version:     3.0.0
+ * Author:      Johnathan Julig
+ * Author URI:  https://yourwebsite.com
+ * License:     GPL-2.0-or-later
+ * Text Domain: wp-currency-by-location
+ */
 
+require_once('includes/functions.php');
+require_once('includes/settings.php');
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-function my_plugin_settings_link($links) {
-  $settings_link = '<a href="options-general.php?page=country_ip_admin_menu">Settings</a>';
+function wp_currency_by_location_settings_link($links) {
+  $settings_link = '<a href="options-general.php?page=wp_currency_by_location_admin_menu">Settings</a>';
   array_unshift($links, $settings_link);
   return $links;
 }
 $plugin = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$plugin", 'my_plugin_settings_link' );
+add_filter("plugin_action_links_$plugin", 'wp_currency_by_location_settings_link' );
 
 
-require_once('settings.php');
+
 
 //Get IP address
 function getVisIpAddr() {
@@ -49,8 +48,8 @@ function getVisIpAddr() {
 
       } else {
           // Store the IP address
-          $vis_ip = getVisIPAddr();
-         // $vis_ip = '51111.3.0.0'; // test
+          //$vis_ip = getVisIPAddr();
+         $vis_ip = '51111.3.0.0'; // test
          // $vis_ip = '168.187.0.0'; // Kuwait
          // $vis_ip = '2.50.33.162'; // Dubai
           $country_by_ip_settings_options = get_option('country_via_ip_ipstack_key'); // Array of All Options
