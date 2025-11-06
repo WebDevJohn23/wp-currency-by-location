@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WP Currency by Location
  * Plugin URI:  https://github.com/YOURUSER/wp-currency-by-location
@@ -13,25 +14,25 @@
 require_once('includes/functions.php');
 require_once('includes/settings.php');
 
-function wp_currency_by_location_settings_link($links) {
-  $settings_link = '<a href="options-general.php?page=wp_currency_by_location_admin_menu">Settings</a>';
-  array_unshift($links, $settings_link);
-  return $links;
+function wp_currency_by_location_settings_link($links)
+{
+    $settings_link = '<a href="options-general.php?page=wp_currency_by_location_admin_menu">Settings</a>';
+    array_unshift($links, $settings_link);
+    return $links;
 }
 $plugin = plugin_basename(__FILE__);
-add_filter("plugin_action_links_$plugin", 'wp_currency_by_location_settings_link' );
+add_filter("plugin_action_links_$plugin", 'wp_currency_by_location_settings_link');
 
 
-  $baseurl = home_url();
+$baseurl = home_url();
 
-  function getCountry()
-  {
-      $name = "Netherlands";
-      if (isset($_GET['country'])) {
-          $country1 = $_GET['country'];
-          return $country1;
-
-      } else { /*
+function getCountry()
+{
+    $name = "Netherlands";
+    if (isset($_GET['country'])) {
+        $country1 = $_GET['country'];
+        return $country1;
+    } else { /*
           // Store the IP address
           $vis_ip = getVisIPAddr();
          // $vis_ip = '51111.3.0.0'; // test
@@ -55,69 +56,8 @@ add_filter("plugin_action_links_$plugin", 'wp_currency_by_location_settings_link
               $name = "United States of America";
           }
  */
-          return $name;
-          //echo $data = json_decode($ipdat);
-      }
-
-  }
-add_shortcode('ipCountry', 'getCountry');
-
-function getPriceTable(){
-
-    global $countryName;
-
-    $countryName = getCountry();
-    $symbol = getSymbol($countryName);
-    if( $symbol === "USD")
-    {$countryName = "United States of America"; }
-
-    $url = 'https://nourish.believenutrition.net/api/countries/getCountry';
-    $data = array("country" => $countryName, "currency" => $symbol);
-
-    $postdata = json_encode($data);
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $arr = json_decode($result, true);
-    if ($arr['success'] === false) { /* Handle error */
-         $countryName = "United States of America";
-        $symbol = "USD";
-
-        $url = 'https://nourish.believenutrition.net/api/countries/getCountry';
-        $data = array("country" => $countryName, "currency" => $symbol);
-
-        $postdata = json_encode($data);
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        $arr = json_decode($result, true);
-       $oneMonth = $arr['data']['oneMonth'];
-        $twoMonths = $arr['data']['twoMonths'];
-        $threeMonths = $arr['data']['threeMonths'];
-        //return $oneMonth . " " . $twoMonths . " " . $threeMonths;
- return $arr;
-
-    } else {
-
-        return $arr;
-
+        return $name;
+        //echo $data = json_decode($ipdat);
     }
 }
+add_shortcode('ipCountry', 'getCountry');
